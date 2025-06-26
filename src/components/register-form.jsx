@@ -34,7 +34,7 @@ export function RegisterForm({
 
 			const res = await axios({
 				method: "post",
-				url: "http://ulasinaja.test/api/register",
+				url: "https://ulasinaja.up.railway.app/api/register",
 				headers: {
 					"Content-Type": "application/json",
 				},

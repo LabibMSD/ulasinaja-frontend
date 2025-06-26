@@ -35,7 +35,7 @@ export default function AdminPage() {
         try {
             const res = await axios({
                 method: "get",
-                url: "http://ulasinaja.test/api/review",
+                url: "https://ulasinaja.up.railway.app/api/review",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ export default function AdminPage() {
         try {
             await axios({
                 method: "delete",
-                url: `http://ulasinaja.test/api/review/${id}`,
+                url: `https://ulasinaja.up.railway.app/api/review/${id}`,
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -82,7 +82,7 @@ export default function AdminPage() {
 
             await axios({
                 method: "post",
-                url: "http://ulasinaja.test/api/logout",
+                url: "https://ulasinaja.up.railway.app/api/logout",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -173,11 +173,8 @@ export default function AdminPage() {
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
                                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction
-                                                onClick={() => handleDelete(deleteId)}
-                                                disabled={isDeleteLoading === deleteId}
-                                            >
-                                                {isDeleteLoading === deleteId ? "Loading..." : "Yes, delete"}
+                                            <AlertDialogAction onClick={() => handleDelete(deleteId)} disabled={isDeleteLoading}>
+                                                {isDeleteLoading ? "Loading..." : "Yes, delete"}
                                             </AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>

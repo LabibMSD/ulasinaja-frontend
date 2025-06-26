@@ -17,6 +17,7 @@ export default function MenuPage() {
     const [showForm, setShowForm] = useState(false)
     const [newReview, setNewReview] = useState("")
 
+    const [isSendSubmitLoading, setIsSendSubmitLoading] = useState(false)
     const [isLogoutLoading, setIsLogoutLoading] = useState(false)
     const [isEditLoading, setIsEditLoading] = useState(false)
     const [isSkeletonLoading, setSkeletonLoading] = useState(true)
@@ -34,7 +35,7 @@ export default function MenuPage() {
 
             await axios({
                 method: "post",
-                url: "http://ulasinaja.test/api/logout",
+                url: "https://ulasinaja.up.railway.app/api/logout",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
@@ -63,7 +64,7 @@ export default function MenuPage() {
         try {
             const res = await axios({
                 method: "get",
-                url: "http://ulasinaja.test/api/user/review",
+                url: "https://ulasinaja.up.railway.app/api/user/review",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
@@ -101,7 +102,7 @@ export default function MenuPage() {
 
             const res = await axios({
                 method: "put",
-                url: `http://ulasinaja.test/api/review/${id}`,
+                url: `https://ulasinaja.up.railway.app/api/review/${id}`,
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
@@ -137,10 +138,12 @@ export default function MenuPage() {
     const handleSendSubmit = useCallback(async () => {
         if (!newReview.trim()) return
 
+        setIsSendSubmitLoading(true)
+
         try {
             const res = await axios({
                 method: "post",
-                url: "http://ulasinaja.test/api/review",
+                url: "https://ulasinaja.up.railway.app/api/review",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
@@ -153,6 +156,8 @@ export default function MenuPage() {
             setReviews((prev) => [...prev, res.data.data])
             setNewReview("")
             setShowForm(false)
+            setIsSendSubmitLoading(false)
+
             toast.success("Review sent successfully")
         } catch (err) {
             toast.error("Failed to send review")
@@ -242,7 +247,16 @@ export default function MenuPage() {
                                 onChange={(e) => setNewReview(e.target.value)}
                             />
                             <div className="flex gap-2">
-                                <Button onClick={handleSendSubmit}>Send</Button>
+                                <Button onClick={handleSendSubmit} disabled={isSendSubmitLoading}>
+                                    {isSendSubmitLoading ? (
+                                        <div className="flex items-center justify-center gap-2">
+                                            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                            Loading...
+                                        </div>
+                                    ) : (
+                                        "Send"
+                                    )}
+                                </Button>
                                 <Button variant="outline" onClick={handleSendToggle}>Cancel</Button>
                             </div>
                         </CardContent>

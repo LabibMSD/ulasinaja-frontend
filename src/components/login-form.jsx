@@ -27,7 +27,7 @@ export function LoginForm({ className, ...props }) {
 		try {
 			const res = await axios({
 				method: "post",
-				url: "http://ulasinaja.test/api/login",
+				url: "https://ulasinaja.up.railway.app/api/login",
 				headers: {
 					"Content-Type": "application/json",
 				},
